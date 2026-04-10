@@ -18,13 +18,20 @@ const pool = mysql.createPool({
   connectTimeout: 10000,
 });
 
-// Test connection on startup
+// Test connection and auto-fix role column
 pool.getConnection((err, connection) => {
   if (err) {
     console.error("DB connection failed:", err);
   } else {
     console.log("DB Connected ✅");
-    connection.release();
+    connection.query(
+      "ALTER TABLE users MODIFY COLUMN role VARCHAR(50)",
+      (err) => {
+        if (err) console.log("Column fix note:", err.message);
+        else console.log("Role column fixed ✅");
+        connection.release();
+      }
+    );
   }
 });
 
