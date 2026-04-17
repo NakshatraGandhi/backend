@@ -1,6 +1,7 @@
 const db = require("../config/db");
 //  CREATE BOOKING (with slot check)
 exports.createBooking = (req, res) => {
+  console.log("Incoming booking:", req.body);
   const {
     userId,
     shopId,
